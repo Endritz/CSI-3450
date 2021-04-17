@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Withdraw</title>
+</head>
+
+<body>
+
+    <h1>Withdraw</h1>
+
+    <style>
+        input,
+        label,
+        button {
+            font-size: xx-large;
+        }
+
+        input {
+            color: green;
+        }
+    </style>
+
+    <form method = 'POST'>
+        <label>Current USD Balance: </label>
+        <input readonly type="text" value="${{usdsum}}">
+        <br>
+        <br>
+        {% csrf_token %}
+        <label>Withdraw USD Amount:</label>
+        {{form.withdrawUSD}}
+        <input type="submit" value="Confirm" min="0">
+        <br>
+        <br>
+        <br>
+        <br>
+        <label>Current CAD Balance: </label>
+        <input readonly type="text" value="CA${{cadsum}}">
+        <br>
+        <br>
+        <label>Withdraw CAD Amount: </label>
+        {{form.withdrawCAD}}
+        <input type="submit" value="Confirm">
+        
+        <br>
+        <br>
+        <br>
+    </form>
+
+    <a href={% url 'homepage' %}><button>HOME</button></a>
+
+</body>
+
+</html>

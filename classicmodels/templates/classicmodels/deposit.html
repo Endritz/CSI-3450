@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Deposit</title>
+</head>
+
+<body>
+
+    <h1>Deposit</h1>
+
+    <style>
+        input,
+        label,
+        button {
+            font-size: xx-large;
+        }
+
+        input {
+            color: green;
+        }
+    </style>
+
+    <form method='POST'>
+        <label>Current USD Balance: </label>
+        <input readonly type="decimal" value=${{usdsum}}>
+        <!--"Current USD Balance" -->
+        <br>
+        <br>
+
+
+        {% csrf_token %}
+        <label>Deposit USD Amount:</label>
+        {{form.depositUSD}}
+        <input type="submit" value="Confirm" min="0">
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <label>Current CAD Balance:</label>
+        <input readonly type="text" value=CA${{cadsum}}>
+        <br>
+        <br>
+
+        {% csrf_token %}
+        <label>Deposit CAD Amount: </label>
+        {{form.depositCAD}}
+        <input type="submit" value="Confirm">
+    </form>
+    <br>
+    <br>
+
+
+    <a href={% url 'homepage' %}><button>HOME</button></a>
+
+</body>
+
+</html>

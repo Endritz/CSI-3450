@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transfer</title>
+</head>
+<body>
+
+<h1>Transfer</h1>
+
+<style>
+    input, label, button{
+        font-size: xx-large;
+    }
+    input{
+        color: green;
+    }
+</style>
+
+<form>
+  <label>Current USD Balance: </label>
+  <input readonly type="text" value="Current USD Balance">
+  <br>
+  <br>
+  <label>Transfer USD Amount: </label>
+  <input type="text" value="Transfer USD Amount"> 
+  <button type="button" onclick="alert('USD TransactionID')">CONFIRM</button>
+  <br>
+  <br>
+  <br>
+  <br>
+  <label>Current CAD Balance: </label>
+  <input readonly type="text" value="Current CAD Balance">
+  <br>
+  <br>
+  <label>Transfer CAD Amount: </label>
+  <input type="text" value="Transfer CAD Amount"> 
+  <button type="button" onclick="alert('CAD TransactionID')">CONFIRM</button>
+  <br>
+  <br>
+  <br>
+  </form>
+
+  <a href={% url 'homepage' %}><button>HOME</button></a>
+
+</body>
+</html>
