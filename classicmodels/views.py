@@ -45,24 +45,28 @@ def deposit(request):
 
                 
                 
-                
+                print('hi')
                 # TRY TO DO SOME ERROR CLEANING UP LATER
                 # if form.cleaned_data.get('depositCAD') < 0 or form.cleaned_data.get('depositUSD') < 0:
                 #     messages.add_message(request, messages.INFO, 'Hello world.')
 
-                cad = form.cleaned_data.get('depositCAD') 
                 usd = form.cleaned_data.get('depositUSD')
+                print(usd)
+                cad = form.cleaned_data.get('depositCAD') 
+                
                 
                 # DJANGO DOESNT TAKE IN BLANK VALUES SO YOU HAVE TO CHECK FOR IT MANUALLY
-                if cad is None or cad > my_model.cad_sum:
-                    cad = 0;
-                if usd is None or usd > my_model.usd_sum:
+                if usd is None:
                     usd = 0;
-
-
-                my_model.cad_sum += cad # MAKE SURE IT TAKES IN THE FORM.DEPOSITCAD AND NOT THE NAME OF THE SUBMIT BUTTONS
+                if cad is None:
+                    cad = 0;
+                print(usd)
+                print(cad)
                 my_model.usd_sum += usd
                 
+                my_model.cad_sum += cad # MAKE SURE IT TAKES IN THE FORM.DEPOSITCAD AND NOT THE NAME OF THE SUBMIT BUTTONS
+                
+
                 my_model.save()
                 messages.success(request, f'Deposit successful!')
                 return redirect('homepage')
@@ -142,7 +146,18 @@ def withdraw(request):
     return render(request, 'classicmodels/withdraw.html', context)
     
 def details(request):
-    return render(request, 'classicmodels/details.html')
+    current_user = request.user
+    username = current_user.username
+    
+    money = MonetaryInfo.objects.get(auth_user_id = current_user.id)
+    bankAcct = money.bank_account_number
+    debitcard = DebitCards.objects.get(fk_debit_cards_monetary_info1 = money.monetary_id).debit_card_num
+    context = {
+        'username': username,
+        'bankAcct': bankAcct,
+        'debitcard' : debitcard
+    }
+    return render(request, 'classicmodels/details.html', context)
     
 def product_details_view(request):
     #alt to below
@@ -164,6 +179,8 @@ def product_details_view(request):
     return render(request, 'classicmodels/productdetails.html', context)
     
 def user_product_query_view(request):
+    
+
     return render(request, 'classicmodels/userProductQuery.html')
     
 def user_product_details_view(request):
