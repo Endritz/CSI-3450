@@ -21,10 +21,9 @@ from django.contrib.auth.views import LoginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', LoginView.as_view(template_name='classicmodels/userLogin.html'),name="Login"),
-    path('productdetails/', views.product_details_view, name='productdetails'),
-    path('userproductquery', views.user_product_query_view, name = 'userproductquery'),
-    path('userproductdetails', views.user_product_details_view, name = 'userproductdetails'),
+    path('login/', views.userLogin, name = 'userLogin'),
+    path('deactivate/', views.deactivate, name = 'deactivate'),
+    path('logoutUser/', views.logoutUser, name = 'logoutUser'),
     path('conversion/', views.conversion, name='conversion'),
     path('deposit/', views.deposit, name='deposit'),
     path('details/', views.details, name='details'),

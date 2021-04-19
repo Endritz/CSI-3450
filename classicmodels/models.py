@@ -87,7 +87,7 @@ class ConversionRate(models.Model):
 
 
 class DebitCards(models.Model):
-    debit_card_id = models.IntegerField(db_column='DEBIT_CARD_ID', primary_key=True)  # Field name made lowercase.
+    debit_card_id = models.AutoField(db_column='DEBIT_CARD_ID', primary_key=True)  # Field name made lowercase.
     debit_card_num = models.BigIntegerField(db_column='DEBIT_CARD_NUM', blank=True, null=True)  # Field name made lowercase.
     cvv = models.IntegerField(db_column='CVV')  # Field name made lowercase.
     expiration_date = models.CharField(max_length=7)
