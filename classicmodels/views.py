@@ -9,6 +9,9 @@ from classicmodels.models import *
 from django.contrib import messages
 from .forms import *
 from django.core.exceptions import ValidationError
+from datetime import datetime,timedelta
+ 
+from django.contrib.auth import authenticate, login
 
 
 # Create your views here.
@@ -24,14 +27,10 @@ def conversion(request):
     return render(request, 'classicmodels/conversion.html')
     
 def deposit(request):
-    #current_user_id = current_user.id
     current_user = request.user
-    # money = MonetaryInfo.objects.get(MonetaryInfo = current_user.monetary_id)
-    # money.usd_sum = 500
-    # money.save()
+    # DEBUGGING PRINT STMNT
     print(str(current_user.id) + " " +current_user.username +" ")
     here = request.POST.get('depositUSD')
-    print(here)
     obj = MonetaryInfo.objects.get(auth_user_id = current_user.id) #monetary_id = 1
     usdsum = obj.usd_sum
     cadsum = obj.cad_sum
@@ -43,34 +42,28 @@ def deposit(request):
             if form.is_valid():
                 my_model = MonetaryInfo.objects.get(auth_user_id = current_user.id)
 
-                
-                
-                
                 # TRY TO DO SOME ERROR CLEANING UP LATER
                 # if form.cleaned_data.get('depositCAD') < 0 or form.cleaned_data.get('depositUSD') < 0:
                 #     messages.add_message(request, messages.INFO, 'Hello world.')
 
-                cad = form.cleaned_data.get('depositCAD') 
                 usd = form.cleaned_data.get('depositUSD')
+                cad = form.cleaned_data.get('depositCAD') 
                 
                 # DJANGO DOESNT TAKE IN BLANK VALUES SO YOU HAVE TO CHECK FOR IT MANUALLY
-                if cad is None or cad > my_model.cad_sum:
-                    cad = 0;
-                if usd is None or usd > my_model.usd_sum:
+                if usd is None:
                     usd = 0;
+                if cad is None:
+                    cad = 0;
 
-
-                my_model.cad_sum += cad # MAKE SURE IT TAKES IN THE FORM.DEPOSITCAD AND NOT THE NAME OF THE SUBMIT BUTTONS
                 my_model.usd_sum += usd
-                
+                my_model.cad_sum += cad 
+                # MAKE SURE IT TAKES IN THE FORM.DEPOSITCAD AND NOT THE NAME OF THE SUBMIT BUTTONS
                 my_model.save()
                 messages.success(request, f'Deposit successful!')
                 return redirect('homepage')
-    else:    
-        print('i stg')    
+    else:      
         form = DepositForm()
-    # obj.usd_sum = 534.343
-    # obj.save()
+
     context = {
         'usdsum': usdsum,
         'cadsum': cadsum,
@@ -80,8 +73,6 @@ def deposit(request):
 
 def homepage(request):
     current_user = request.user
-    user_id = current_user.id
-
     obj = MonetaryInfo.objects.get(auth_user_id = current_user.id) #monetary_id = 1
     usdsum = obj.usd_sum
     cadsum = obj.cad_sum
@@ -142,7 +133,18 @@ def withdraw(request):
     return render(request, 'classicmodels/withdraw.html', context)
     
 def details(request):
-    return render(request, 'classicmodels/details.html')
+    current_user = request.user
+    username = current_user.username
+    
+    money = MonetaryInfo.objects.get(auth_user_id = current_user.id)
+    bankAcct = money.bank_account_number
+    debitcard = DebitCards.objects.get(fk_debit_cards_monetary_info1 = money.monetary_id).debit_card_num
+    context = {
+        'username': username,
+        'bankAcct': bankAcct,
+        'debitcard' : debitcard
+    }
+    return render(request, 'classicmodels/details.html', context)
     
 def product_details_view(request):
     #alt to below
@@ -164,6 +166,8 @@ def product_details_view(request):
     return render(request, 'classicmodels/productdetails.html', context)
     
 def user_product_query_view(request):
+    
+
     return render(request, 'classicmodels/userProductQuery.html')
     
 def user_product_details_view(request):
@@ -197,6 +201,10 @@ def signup(request):
     debitcard = random.randint(1000000000000000,9999999999999999)
     cvv1 = random.randint(100, 999)
     bankacct = random.randint(100000000000,999999999999)
+    #ADDING TWO YEARS FROM CURRENT TIME AND THEN PUTTING IT IN AN EXPIRATION FORMAT
+    date = datetime.now() + timedelta(days=720)
+    twoYearsFromNow= date.strftime('%m/%y')
+    
 
 
     if request.method =='POST':
@@ -210,11 +218,16 @@ def signup(request):
             new_entry.save()
 
 
-            new_entry2 = DebitCards(debit_card_id = 3,debit_card_num = debitcard, cvv = cvv1, expiration_date = '2021-01-04', fk_debit_cards_monetary_info1_id = new_entry.pk)
+            new_entry2 = DebitCards(debit_card_id = 3,debit_card_num = debitcard, cvv = cvv1, expiration_date = twoYearsFromNow, fk_debit_cards_monetary_info1_id = new_entry.pk)
             new_entry2.save()
             
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account created for {username}!')
+
+            new_user = authenticate(username=form.cleaned_data['username'],
+                                    password=form.cleaned_data['password1'],
+                                    )
+            login(request, new_user)
             
             return redirect('homepage')
     else:

@@ -90,7 +90,7 @@ class DebitCards(models.Model):
     debit_card_id = models.IntegerField(db_column='DEBIT_CARD_ID', primary_key=True)  # Field name made lowercase.
     debit_card_num = models.BigIntegerField(db_column='DEBIT_CARD_NUM', blank=True, null=True)  # Field name made lowercase.
     cvv = models.IntegerField(db_column='CVV')  # Field name made lowercase.
-    expiration_date = models.DateField(db_column='EXPIRATION_DATE')  # Field name made lowercase.
+    expiration_date = models.CharField(max_length=7)
     fk_debit_cards_monetary_info1 = models.ForeignKey('MonetaryInfo', models.DO_NOTHING, db_column='fk_DEBIT_CARDS_MONETARY_INFO1', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
@@ -153,8 +153,8 @@ class DjangoSite(models.Model):
 
 class MonetaryInfo(models.Model):
     monetary_id = models.AutoField(db_column='MONETARY_ID', primary_key=True)  # Field name made lowercase.
-    usd_sum = models.DecimalField(db_column='USD_SUM', max_digits=65, decimal_places=2)  # Field name made lowercase.
-    cad_sum = models.DecimalField(db_column='CAD_SUM', max_digits=65, decimal_places=2)  # Field name made lowercase.
+    usd_sum = models.DecimalField(max_digits=65, decimal_places=2, blank=True, null=True)
+    cad_sum = models.DecimalField(db_column='CAD_SUM', max_digits=65, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     bank_account_number = models.BigIntegerField(blank=True, null=True)
     conversion_rate_conversion_rate = models.ForeignKey(ConversionRate, models.DO_NOTHING, db_column='CONVERSION_RATE_CONVERSION_RATE_ID', blank=True, null=True)  # Field name made lowercase.
     auth_user = models.OneToOneField(AuthUser, models.DO_NOTHING, blank=True, null=True)
