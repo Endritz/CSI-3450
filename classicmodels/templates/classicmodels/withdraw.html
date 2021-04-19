@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="background-color: #262626">
 
 <head>
     <title>Withdraw</title>
@@ -7,7 +7,7 @@
 
 <body>
 
-    <h1>Withdraw</h1>
+    <h1 style="color: white; text-align: center;">Withdraw</h1>
 
     <style>
         input,
@@ -17,37 +17,39 @@
         }
 
         input {
-            color: green;
+            color: black;
         }
     </style>
 
-    <form method = 'POST'>
-        <label>Current USD Balance: </label>
-        <input readonly type="text" value="${{usdsum}}">
-        <br>
-        <br>
-        {% csrf_token %}
-        <label>Withdraw USD Amount:</label>
-        {{form.withdrawUSD}}
-        <input type="submit" value="Confirm" min="0">
-        <br>
-        <br>
-        <br>
-        <br>
-        <label>Current CAD Balance: </label>
-        <input readonly type="text" value="CA${{cadsum}}">
-        <br>
-        <br>
-        <label>Withdraw CAD Amount: </label>
-        {{form.withdrawCAD}}
-        <input type="submit" value="Confirm">
-        
-        <br>
-        <br>
-        <br>
-    </form>
+    <div style="text-align: center;">
+        <form method='POST'>
+            <label style="color: white;">Current USD Balance: </label>
+            <input readonly type="text" value="${{usdsum}}">
+            <br>
+            <br>
+            {% csrf_token %}
+            <label style="color: white;">Withdraw USD Amount:</label>
+            {{form.withdrawUSD}}
+            <input type="submit" value="Confirm" min="0" style="background-color: lightgreen;">
+            <br>
+            <br>
+            <br>
+            <br>
+            <label style="color: white;">Current CAD Balance: </label>
+            <input readonly type="text" value="CA${{cadsum}}">
+            <br>
+            <br>
+            <label style="color: white;">Withdraw CAD Amount: </label>
+            {{form.withdrawCAD}}
+            <input type="submit" value="Confirm" style="background-color: lightgreen;">
 
-    <a href={% url 'homepage' %}><button>HOME</button></a>
+            <br>
+            <br>
+            <br>
+        </form>
+
+        <a href={% url 'homepage' %}><button style="background-color: lightgreen;">HOME</button></a>
+    </div>
 
 </body>
 

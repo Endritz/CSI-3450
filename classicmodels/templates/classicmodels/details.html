@@ -1,39 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html style="background-color: #262626">
 <head>
     <title>Details</title>
 </head>
 <body>
 
-<h1>Details</h1>
+    <h1 style="color: white; text-align: center;">Details</h1>
 
 <style>
     input, label, button{
         font-size: xx-large;
     }
     input{
-        color: green;
+        color: black;
     }
 </style>
 
+<div style="text-align: center;">
 <form>
-  <label>Username: </label>
+
+  <label style="color: white;">Username: </label>
+
+
   <input readonly type="text" value="{{username}}">
 
   <br>
   <br>
+
+  <label style="color: white;">Bank Account: </label>
+  <input readonly type="text" value="{{bankAcct}}">
+  <br>
+  <br>
+  <label style="color: white;">Debit Card: </label>
+
   <label>Bank Account: </label>
   <input readonly type="text" value="{{bankAcct}}">
   <br>
   <br>
   <label>Debit Card: </label>
+
   <input type="text" value="{{debitcard}}"> 
   <br>
   <br>
   <br>
   </form>
 
-  <a href={% url 'homepage' %}><button>HOME</button></a>
+  <a href={% url 'homepage' %}><button style="background-color: lightgreen;">HOME</button></a>
+  </div>
 
 </body>
 </html>
