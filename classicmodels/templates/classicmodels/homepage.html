@@ -3,8 +3,6 @@
 <html class="content" style="background-color: #262626;">
 
 <style>
-
-
     .buttonText {
         font-size: small;
         color: black;
@@ -50,11 +48,14 @@
 
 <head>
     <div>
-        <div style="color: white;">US Balance: </div>
+        <div style="color: white; display: inline;">US Balance: </div>
+        <div style="color: white; float: right; display: inline;">CAD Balance: <br>
+            <div style="color: lightgreen; float: right; display: inline;">{{cadsum}} </div>
+        </div>
         <div style="color: lightgreen;">{{usdsum}}</div>
+
     </div>
-    <div style="color: white">CAD Balance: </div>
-    <div style="color: lightgreen;">{{cadsum}} </div>
+
 </head>
 
 <div flex> </div>
@@ -73,7 +74,7 @@
     </div>
 </div>
 <div style="margin: right;">
-    <a href={% url 'logout' %}><button style="background-color: #262626; color: white; border-color: lightgreen;"
+    <a href={% url 'logoutUser' %}><button style="background-color: #262626; color: white; border-color: lightgreen;"
             !override>LOG
             OUT</button></a>
     <button onclick="alert()" style="background-color: #262626; color: white; border-color: lightgreen;"
@@ -85,7 +86,7 @@
     function alert() {
         if (confirm("Your existing balances will be withdrawn upon deletion. \n Would you like to proceed?") == true) {
 
-            window.location.href = "home.html";
+            window.location.href = "{% url 'deactivate' %}";
 
         } else {
             userPreference = "Process Cancelled";

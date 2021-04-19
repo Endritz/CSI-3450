@@ -8,6 +8,7 @@ from django.core.exceptions import ValidationError
 from datetime import datetime,timedelta
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+import decimal
 
 
 # Create your views here.
@@ -15,14 +16,63 @@ from django.contrib.auth.decorators import login_required
     
 @login_required(login_url = 'userLogin')
 def conversion(request):
-    return render(request, 'classicmodels/conversion.html')
+    current_user = request.user
+    obj = MonetaryInfo.objects.get(auth_user_id = current_user.id) #monetary_id = 1
+    usdtocad = ConversionRate.objects.get(conversion_rate_id = 1)
+    cadtousd = ConversionRate.objects.get(conversion_rate_id = 2)
+    conrateusdtocad = usdtocad.value
+    conratecadtousd = cadtousd.value
+    print(conratecadtousd)
+
+    usdsum = obj.usd_sum
+    cadsum = obj.cad_sum
+
+    if request.method == 'POST':
+            form = DepositForm(request.POST)
+            if form.is_valid():
+                my_model = MonetaryInfo.objects.get(auth_user_id = current_user.id)
+                print('hello')
+                # TRY TO DO SOME ERROR CLEANING UP LATER
+                # if form.cleaned_data.get('depositCAD') < 0 or form.cleaned_data.get('depositUSD') < 0:
+                #     messages.add_message(request, messages.INFO, 'Hello world.')
+
+                usd = form.cleaned_data.get('depositUSD')
+                cad = form.cleaned_data.get('depositCAD')
+                
+                # DJANGO DOESNT TAKE IN BLANK VALUES SO YOU HAVE TO CHECK FOR IT MANUALLY
+                if usd is None:
+                    usd = 0;
+                if cad is None:
+                    cad = 0;
+
+                my_model.usd_sum += decimal.Decimal(float(cad) * conratecadtousd)
+                my_model.usd_sum -= decimal.Decimal(float(usd))
+                my_model.cad_sum += decimal.Decimal(float(usd) * conrateusdtocad)
+                my_model.cad_sum -= decimal.Decimal(float(cad))
+                # MAKE SURE IT TAKES IN THE FORM.DEPOSITCAD AND NOT THE NAME OF THE SUBMIT BUTTONS
+                my_model.save()
+                messages.success(request, f'Deposit successful!')
+                return redirect('homepage')
+    else:      
+        form = DepositForm()
+
+
+
+    context = {
+        'usdtocadrate' : conrateusdtocad,
+        'cadtousdrate' : conratecadtousd,
+        'usdsum': usdsum,
+        'cadsum': cadsum,
+        'form' : form
+    }
+
+    return render(request, 'classicmodels/conversion.html', context)
 
 @login_required(login_url = 'userLogin')
 def deposit(request):
     current_user = request.user
     # DEBUGGING PRINT STMNT
     print(str(current_user.id) + " " +current_user.username +" ")
-    here = request.POST.get('depositUSD')
     obj = MonetaryInfo.objects.get(auth_user_id = current_user.id) #monetary_id = 1
     usdsum = obj.usd_sum
     cadsum = obj.cad_sum
