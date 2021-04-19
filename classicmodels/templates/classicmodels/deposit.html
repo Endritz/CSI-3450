@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html style="background-color: #262626">
+
+</html>
 
 <head>
     <title>Deposit</title>
@@ -7,7 +9,7 @@
 
 <body>
 
-    <h1>Deposit</h1>
+    <h1 style="color: white; text-align: center;">Deposit</h1>
 
     <style>
         input,
@@ -17,39 +19,47 @@
         }
 
         input {
-            color: green;
+            color: black;
         }
     </style>
 
-    <form method='POST'>
-        <label>Current USD Balance: </label>
-        <input readonly type="decimal" value=${{usdsum}}>
-        <!--"Current USD Balance" -->
-        <br>
-        <br>
-        {% csrf_token %}
-        <label>Deposit USD Amount:</label>
+
+    <div style="text-align: center;">
+        <form method='POST'>
+            <label style="color: white;">Current USD Balance: </label>
+            <input readonly type="decimal" value=${{usdsum}}>
+            <!--"Current USD Balance" -->
+            <br>
+            <br>
+
+
+            {% csrf_token %}
+            <label style="color: white;">Deposit USD Amount:</label>
         {{form.depositUSD}}
-        <input type="submit" value="Confirm" min="0">
-        <br>
-        <br>
-        <br>
-        <br>
-        <label>Current CAD Balance:</label>
-        <input readonly type="text" value=CA${{cadsum}}>
+        <input type="submit" value="Confirm" min="0" style="background-color: lightgreen;">
+
+                <br>
+                <br>
+                <br>
+                <br>
+                <label style="color: white;">Current CAD Balance:</label>
+                <input readonly type="text" value=CA${{cadsum}}>
+                <br>
+                <br>
+
+                {% csrf_token %}
+                <label style="color: white;">Deposit CAD Amount: </label>
+                {{form.depositCAD}}
+                <input type="submit" value="Confirm" style="background-color: lightgreen;">
+        </form>
+
         <br>
         <br>
 
-        {% csrf_token %}
-        <label>Deposit CAD Amount: </label>
-        {{form.depositCAD}}
-        <input type="submit" value="Confirm">
-    </form>
-    <br>
-    <br>
 
 
-    <a href={% url 'homepage' %}><button>HOME</button></a>
+        <a href={% url 'homepage' %}><button style="background-color: lightgreen;">HOME</button></a>
+        </div>
 
 </body>
 

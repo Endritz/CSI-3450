@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 
-<html class="page">
+<html class="content" style="background-color: #262626;">
 
 <style>
+
+
     .buttonText {
         font-size: small;
         color: black;
@@ -10,14 +12,15 @@
         vertical-align: middle;
     }
 
+
     button {
         height: 10vh;
         width: 20vh;
-        background-color: lightblue;
+        background-color: lightgreen;
         display: inline-block;
         margin: 1vh;
-        border-color: black;
         border-radius: .5vh;
+        color: black;
     }
 
     .page {
@@ -27,39 +30,63 @@
     .title {
         font-size: xx-large;
     }
+
+    .content {
+        max-width: 70vh;
+        margin: auto;
+        background: white;
+        padding: 10px;
+
+    }
 </style>
 
 <head>
-    <div style="color: orange;" class="title">Welcome, {{request.user.username}}</div>
+
+    <div style="text-align: center;">
+        <div class="title" style="color:white;" display: inline-block>Welcome, </div>
+        <div style="color: lightgreen;" display: inline-block>{{request.user.username}}</div>
+    </div>
 </head>
 
 <head>
-    <div style="color: orange;">US Balance:{{usdsum}} CAD Balance:{{cadsum}} </div>
+    <div>
+        <div style="color: white;">US Balance: </div>
+        <div style="color: lightgreen;">{{usdsum}}</div>
+    </div>
+    <div style="color: white">CAD Balance: </div>
+    <div style="color: lightgreen;">{{cadsum}} </div>
 </head>
 
 <div flex> </div>
-<div style="margin: auto;">
+<div>
     <div display:inline-block>
         <a href={% url 'deposit' %}><button>DEPOSIT</button></a>
         <a href={% url 'withdraw' %}><button>WITHDRAW</button></a>
         <a href={% url 'transfer' %}><button>TRANSFER</button></a>
     </div>
 
+
     <div display:inline-block>
         <a href={% url 'details' %}><button>DETAILS</button></a>
         <a href={% url 'conversion' %}><button>CONVERSION</button></a>
-        <a href={% url 'logoutUser' %}><button style="background-color: rgb(250, 125, 125)" !override>LOG
-                OUT</button></a>
+
     </div>
 </div>
-<div style="margin: auto">
-    </a><button onclick="alert()" style="background-color: rgb(250, 125, 125)" !override>DELETE ACCOUNT</button>
+<div style="margin: right;">
+    <a href={% url 'logout' %}><button style="background-color: #262626; color: white; border-color: lightgreen;"
+            !override>LOG
+            OUT</button></a>
+    <button onclick="alert()" style="background-color: #262626; color: white; border-color: lightgreen;"
+        !override>DELETE ACCOUNT</button>
+
 </div>
 
 <script>
     function alert() {
         if (confirm("Your existing balances will be withdrawn upon deletion. \n Would you like to proceed?") == true) {
-            window.location.href = '{% url 'deactivate' %}';
+
+            window.location.href = "home.html";
+
         } else {
             userPreference = "Process Cancelled";
         }

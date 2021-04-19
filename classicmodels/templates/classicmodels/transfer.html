@@ -1,46 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html style="background-color: #262626">
+
+</html>>
+
 <head>
     <title>Transfer</title>
 </head>
+
 <body>
 
-<h1>Transfer</h1>
+    <h1 style="color: white; text-align: center;">Transfer</h1>
 
-<style>
-    input, label, button{
-        font-size: xx-large;
-    }
-    input{
-        color: green;
-    }
-</style>
+    <style>
+        input,
+        label,
+        button {
+            font-size: xx-large;
+        }
 
-<form>
-  <label>Current USD Balance: </label>
-  <input readonly type="text" value="Current USD Balance">
-  <br>
-  <br>
-  <label>Transfer USD Amount: </label>
-  <input type="text" value="Transfer USD Amount"> 
-  <button type="button" onclick="alert('USD TransactionID')">CONFIRM</button>
-  <br>
-  <br>
-  <br>
-  <br>
-  <label>Current CAD Balance: </label>
-  <input readonly type="text" value="Current CAD Balance">
-  <br>
-  <br>
-  <label>Transfer CAD Amount: </label>
-  <input type="text" value="Transfer CAD Amount"> 
-  <button type="button" onclick="alert('CAD TransactionID')">CONFIRM</button>
-  <br>
-  <br>
-  <br>
-  </form>
+        input {
+            color: black;
+        }
+    </style>
 
-  <a href={% url 'homepage' %}><button>HOME</button></a>
+    <div style="text-align: center;">
+        <form>
+            <label style="color: white;">Current USD Balance: </label>
+            <input readonly type="text" value="Current USD Balance">
+            <br>
+            <br>
+            <label style="color: white;">Transfer USD Amount: </label>
+            <input type="text" value="Transfer USD Amount">
+            <button type="button" onclick="alert('USD TransactionID')" style="background-color: lightgreen;">CONFIRM</button>
+            <br>
+            <br>
+            <br>
+            <br>
+            <label style="color: white;">Current CAD Balance: </label>
+            <input readonly type="text" value="Current CAD Balance">
+            <br>
+            <br>
+            <label style="color: white;">Transfer CAD Amount: </label>
+            <input type="text" value="Transfer CAD Amount">
+            <button type="button" onclick="alert('CAD TransactionID')" style="background-color: lightgreen;">CONFIRM</button>
+            <br>
+            <br>
+            <br>
+        </form>
+    
+
+        <a href={% url 'homepage' %} ><button style="background-color: lightgreen;">HOME</button></a>
+    </div>
 
 </body>
+
 </html>

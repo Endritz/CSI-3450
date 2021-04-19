@@ -1,46 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html style="background-color: #262626">
+
 <head>
     <title>Conversion</title>
 </head>
+
 <body>
 
-<h1>Conversion</h1>
+    <h1 style="color: white; text-align: center;">Conversion</h1>
 
-<style>
-    input, label, button{
-        font-size: xx-large;
-    }
-    input{
-        color: green;
-    }
-</style>
+    <style>
+        input,
+        label,
+        button {
+            font-size: xx-large;
+        }
 
-<form>
-  <label>Current USD Balance: </label>
-  <input readonly type="text" value="Current USD Balance">
-  <br>
-  <br>
-  <label>Conversion USD Amount: </label>
-  <input type="text" value="Conversion USD Amount"> 
-  <button type="button" onclick="alert('USD TransactionID')">CONFIRM</button>
-  <br>
-  <br>
-  <br>
-  <br>
-  <label>Current CAD Balance: </label>
-  <input readonly type="text" value="Current CAD Balance">
-  <br>
-  <br>
-  <label>Conversion CAD Amount: </label>
-  <input type="text" value="Conversion CAD Amount"> 
-  <button type="button" onclick="alert('CAD TransactionID')">CONFIRM</button>
-  <br>
-  <br>
-  <br>
-  </form>
+        input {
+            color: black;
+        }
 
-  <a href={% url 'homepage' %}><button>HOME</button></a>
+        
+    </style>
+
+    <div style = "text-align: center;">
+    <form>
+        <label style="color: white;">Current USD Balance: </label>
+        <input readonly type="text" value="Current USD Balance">
+        <br>
+        <br>
+        <label style="color: white;">Conversion USD Amount: </label>
+        <input type="text" value="Conversion USD Amount">
+        <button type="button" onclick="alert('USD TransactionID')" style = "background-color: lightgreen;">CONFIRM</button>
+        <br>
+        <br>
+        <br>
+        <br>
+        <label style="color: white;">Current CAD Balance: </label>
+        <input readonly type="text" value="Current CAD Balance">
+        <br>
+        <br>
+        <label style="color: white;">Conversion CAD Amount: </label>
+        <input type="text" value="Conversion CAD Amount">
+        <button type="button" onclick="alert('CAD TransactionID')" style = "background-color: lightgreen;">CONFIRM</button>
+        <br>
+        <br>
+        <br>
+    </form>
+    <a href={% url 'homepage' %}><button style = "background-color: lightgreen;">HOME</button></a>
+    </div>
+    
 
 </body>
+
 </html>
