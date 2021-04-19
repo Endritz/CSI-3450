@@ -1,65 +1,91 @@
 <!DOCTYPE html>
 
-<html class="page">
+<html class="content" style="background-color: #262626;">
 
-    <style>
-        .buttonText {
-            font-size: small;
-            color: black;
-            text-align: center;
-            vertical-align: middle;
-        }
-        button {
-            height: 10vh;
-            width: 20vh;
-            background-color: lightblue;
-            display: inline-block;
-            margin: 1vh;
-            border-color: black;
-            border-radius: .5vh;
-        }
-        .page {
-            vertical-align: middle;
-        }
-        .title {
-            font-size: xx-large;
-        }
+<style>
+    html {
+        font-family: 'Libre Baskerville';
+        font-size: 25px;
+    }
 
-    </style>
+    .buttonText {
+        font-size: small;
+        color: black;
+        text-align: center;
+        vertical-align: middle;
+    }
 
-    <head>
-        <div style="color: orange;" class="title">Welcome, {{request.user.username}}</div>
-    </head>
-    <head>
-        <div style="color: orange;">US Balance:{{usdsum}}        CAD Balance:{{cadsum}} </div>
-    </head>
+    button {
+        height: 10vh;
+        width: 20vh;
+        background-color: lightgreen;
+        display: inline-block;
+        margin: 1vh;
+        border-radius: .5vh;
+        color: black;
+    }
 
-    <div flex> </div>
-    <div style="margin: auto;">
-        <div display:inline-block>
-            <a href={% url 'deposit' %}><button>DEPOSIT</button></a>
-            <a href={% url 'withdraw' %}><button>WITHDRAW</button></a>
-            <a href={% url 'transfer' %}><button>TRANSFER</button></a>
-        </div>
+    .page {
+        vertical-align: middle;
+    }
 
-        <div display:inline-block>
-            <a href={% url 'details' %}><button>DETAILS</button></a>
-            <a href={% url 'conversion' %}><button>CONVERSION</button></a>
-            <a href={% url 'logout' %}><button style = "background-color: rgb(250, 125, 125)" !override>LOG OUT</button></a>
-        </div>
+    .title {
+        font-size: xx-large;
+    }
+
+    .content {
+        max-width: 70vh;
+        margin: auto;
+        background: white;
+        padding: 10px;
+    }
+</style>
+
+<head>
+    <div style="text-align: center;">
+        <div class="title" style="color:white;" display: inline-block>Welcome, </div>
+        <div style="color: lightgreen;" display: inline-block>{{request.user.username}}</div>
     </div>
-    <div style="margin: auto">
-        <button onclick="alert()" style = "background-color: rgb(250, 125, 125)" !override>DELETE ACCOUNT</button>
+</head>
+
+<head>
+    <div>
+        <div style="color: white;">US Balance: </div>
+        <div style="color: lightgreen;">{{usdsum}}</div>
+    </div>
+    <div style="color: white">CAD Balance: </div>
+    <div style="color: lightgreen;">{{cadsum}} </div>
+</head>
+
+<div flex> </div>
+<div>
+    <div display:inline-block>
+        <a href={% url 'deposit' %}><button>DEPOSIT</button></a>
+        <a href={% url 'withdraw' %}><button>WITHDRAW</button></a>
+        <a href={% url 'transfer' %}><button>TRANSFER</button></a>
     </div>
 
-    <script>
-        function alert() {
-          if (confirm("Your existing balances will be withdrawn upon deletion. \n Would you like to proceed?") == true) {
+    <div display:inline-block>
+        <a href={% url 'details' %}><button>DETAILS</button></a>
+        <a href={% url 'conversion' %}><button>CONVERSION</button></a>
+    </div>
+</div>
+<div style="margin: right;">
+    <a href={% url 'logout' %}><button style="background-color: #262626; color: white; border-color: lightgreen;"
+            !override>LOG
+            OUT</button></a>
+    <button onclick="alert()" style="background-color: #262626; color: white; border-color: lightgreen;"
+        !override>DELETE ACCOUNT</button>
+</div>
+
+<script>
+    function alert() {
+        if (confirm("Your existing balances will be withdrawn upon deletion. \n Would you like to proceed?") == true) {
             window.location.href = "home.html";
-		} else {
-			userPreference = "Process Cancelled";
-		}
+        } else {
+            userPreference = "Process Cancelled";
         }
-    </script>
+    }
+</script>
 
 </html>
