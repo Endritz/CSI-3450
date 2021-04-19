@@ -3,30 +3,35 @@
 <!-- Bootstrap CDN link below for CSS and JS-->
 <!-- All documentation can be found on https://getbootstrap.com/docs/3.4/css/ -->
 
-<title>Login Page</title>
+<title>Signup Page</title>
 
 <body>
 	<div style="text-align: center;">
 		<h2 style="color: white;">Create an Account</h2>
 		<br>
 		<div class="container">
-			<label style="color: white;">Create a username: </label>
-			<input type="text" placeholder="username">
-			<br>
-			<br>
-			<label style="color: white;">Enter your email: </label>
-			<input type="text" placeholder="user@email.com">
-			<br>
-			<br>
-			<label style="color: white;">Create a password: </label>
-			<input type="text" placeholder="password">
-			<br>
-			<br>
-			<label style="color: white;">Re-enter the password: </label>
-			<input type="text" placeholder="password">
-			<br>
-			<br>
-			<input type="submit" value="Create Account" style="background-color: lightgreen; font-size: x-large;">
+			<form method = 'POST'>
+				{% csrf_token %}
+				
+				<label style="color: white;">Create a username: </label>
+				{{form.username}}
+				
+				<br>
+				<br>
+				<label style="color: white;">Enter your email: </label>
+				{{form.email}}
+				<br>
+				<br>
+				<label style="color: white;">Create a password: </label>
+				{{form.password1}}
+				<br>
+				<br>
+				<label style="color: white;">Re-enter the password: </label>
+				{{form.password2}}
+				<br>
+				<br>
+				<input type="submit" value="Submit" style="background-color: lightgreen; font-size: x-large;">
+			</form>
 		</div>
 	</div>
 </body>

@@ -35,22 +35,22 @@
 
             {% csrf_token %}
             <label style="color: white;">Deposit USD Amount:</label>
-        {{form.depositUSD}}
-        <input type="submit" value="Confirm" min="0" style="background-color: lightgreen;">
+            {{form.depositUSD}}
+            <input type="submit" value="Confirm" min="0" style="background-color: lightgreen;">
 
-                <br>
-                <br>
-                <br>
-                <br>
-                <label style="color: white;">Current CAD Balance:</label>
-                <input readonly type="text" value=CA${{cadsum}}>
-                <br>
-                <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <label style="color: white;">Current CAD Balance:</label>
+            <input readonly type="text" value=CA${{cadsum}}>
+            <br>
+            <br>
 
-                {% csrf_token %}
-                <label style="color: white;">Deposit CAD Amount: </label>
-                {{form.depositCAD}}
-                <input type="submit" value="Confirm" style="background-color: lightgreen;">
+            {% csrf_token %}
+            <label style="color: white;">Deposit CAD Amount: </label>
+            {{form.depositCAD}}
+            <input type="submit" value="Confirm" style="background-color: lightgreen;">
         </form>
 
         <br>
@@ -59,7 +59,7 @@
 
 
         <a href={% url 'homepage' %}><button style="background-color: lightgreen;">HOME</button></a>
-        </div>
+    </div>
 
 </body>
 

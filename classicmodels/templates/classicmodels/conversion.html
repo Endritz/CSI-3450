@@ -24,25 +24,35 @@
     </style>
 
     <div style = "text-align: center;">
-    <form>
+    <form method = 'POST'>
+        <label style="color: white;">USD to CAD Conversion Rate: </label>
+        <input readonly type="text" value="{{usdtocadrate}}">
+        <br>
+        <br>
         <label style="color: white;">Current USD Balance: </label>
-        <input readonly type="text" value="Current USD Balance">
+        <input readonly type="text" value="${{usdsum}}">
         <br>
         <br>
+        {% csrf_token %}
         <label style="color: white;">Conversion USD Amount: </label>
-        <input type="text" value="Conversion USD Amount">
-        <button type="button" onclick="alert('USD TransactionID')" style = "background-color: lightgreen;">CONFIRM</button>
+        {{form.depositUSD}}
+        <input type="submit" value="Convert to CAD" min="0" style="background-color: lightgreen;">
         <br>
         <br>
+        <br>
+        <br>
+        <label style="color: white;">CAD to USD Conversion Rate: </label>
+        <input readonly type="text" value="{{cadtousdrate}}">
         <br>
         <br>
         <label style="color: white;">Current CAD Balance: </label>
-        <input readonly type="text" value="Current CAD Balance">
+        <input readonly type="text" value="CA${{cadsum}}">
         <br>
         <br>
+        {% csrf_token %}
         <label style="color: white;">Conversion CAD Amount: </label>
-        <input type="text" value="Conversion CAD Amount">
-        <button type="button" onclick="alert('CAD TransactionID')" style = "background-color: lightgreen;">CONFIRM</button>
+        {{form.depositCAD}}
+        <input type="submit" value="Convert to USD" min="0" style="background-color: lightgreen;">
         <br>
         <br>
         <br>
