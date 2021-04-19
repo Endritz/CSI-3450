@@ -23,4 +23,7 @@ class WithdrawForm(forms.Form):
     withdrawUSD = forms.DecimalField(required = False,max_digits = 6, decimal_places= 2,  widget=forms.TextInput(attrs={'placeholder': '0'}), validators = [MinValueValidator(0, message = 'please do not put in negative numbers')])
     withdrawCAD = forms.DecimalField(required = False, max_digits = 6, decimal_places= 2, widget=forms.TextInput(attrs={'placeholder': '0'}), validators = [MinValueValidator(0, message = 'please do not put in negative numbers')])
 
+class LoginForm(forms.Form):
+   username = forms.CharField()
+   password = forms.CharField(widget=forms.PasswordInput)#hides password on input
     

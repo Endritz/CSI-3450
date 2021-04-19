@@ -3,10 +3,7 @@
 <html class="content" style="background-color: #262626;">
 
 <style>
-    html {
-        font-family: 'Libre Baskerville';
-        font-size: 25px;
-    }
+
 
     .buttonText {
         font-size: small;
@@ -14,6 +11,7 @@
         text-align: center;
         vertical-align: middle;
     }
+
 
     button {
         height: 10vh;
@@ -38,10 +36,12 @@
         margin: auto;
         background: white;
         padding: 10px;
+
     }
 </style>
 
 <head>
+
     <div style="text-align: center;">
         <div class="title" style="color:white;" display: inline-block>Welcome, </div>
         <div style="color: lightgreen;" display: inline-block>{{request.user.username}}</div>
@@ -65,9 +65,11 @@
         <a href={% url 'transfer' %}><button>TRANSFER</button></a>
     </div>
 
+
     <div display:inline-block>
         <a href={% url 'details' %}><button>DETAILS</button></a>
         <a href={% url 'conversion' %}><button>CONVERSION</button></a>
+
     </div>
 </div>
 <div style="margin: right;">
@@ -76,12 +78,15 @@
             OUT</button></a>
     <button onclick="alert()" style="background-color: #262626; color: white; border-color: lightgreen;"
         !override>DELETE ACCOUNT</button>
+
 </div>
 
 <script>
     function alert() {
         if (confirm("Your existing balances will be withdrawn upon deletion. \n Would you like to proceed?") == true) {
+
             window.location.href = "home.html";
+
         } else {
             userPreference = "Process Cancelled";
         }

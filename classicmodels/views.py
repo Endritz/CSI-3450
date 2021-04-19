@@ -1,31 +1,23 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
 import random
-
-# Create your views here.
 from django.http import HttpResponse
-
 from classicmodels.models import *
 from django.contrib import messages
 from .forms import *
 from django.core.exceptions import ValidationError
 from datetime import datetime,timedelta
- 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 
-#def index(request):
-#    return HttpResponse('Hello, welcome to the index page.')
-
-def index(request):
-    return render(request, 'classicmodels/home.html')
-    #create a folder called templates inside of classicmodels
     
+@login_required(login_url = 'userLogin')
 def conversion(request):
     return render(request, 'classicmodels/conversion.html')
-    
+
+@login_required(login_url = 'userLogin')
 def deposit(request):
     current_user = request.user
     # DEBUGGING PRINT STMNT
@@ -71,6 +63,7 @@ def deposit(request):
     }
     return render(request, 'classicmodels/deposit.html', context )
 
+@login_required(login_url = 'userLogin')
 def homepage(request):
     current_user = request.user
     obj = MonetaryInfo.objects.get(auth_user_id = current_user.id) #monetary_id = 1
@@ -84,19 +77,56 @@ def homepage(request):
 
     return render(request, 'classicmodels/homepage.html', context)
 
-def logout(request):
-    return render(request, 'classicmodels/logout.html')
+@login_required(login_url = 'userLogin')
+def logoutUser(request):
+    logout(request)
+    return redirect('userLogin')
+    return render(request, 'classicmodels/userLogin.html')
 
+@login_required(login_url = 'userLogin')
+def deactivate(request):
+    current_user = request.user
+    u = User.objects.get(username = current_user.username)
+    u.delete()
+    return redirect('userLogin')
+    return render(request, 'classicmodels/userLogin.html')
+
+@login_required(login_url = 'userLogin')
 def transfer(request):
     return render(request, 'classicmodels/transfer.html')
 
 def userLogin(request):
-        if request.user.is_authenticated():
-            return  redirect('homepage')
+    form = LoginForm(request.POST)
+    if request.user.is_authenticated:
+        form = LoginForm(request.POST)
+        print('hello')
+        return redirect('homepage')
+    if form.is_valid():
+        cleandata=form.cleaned_data
+        print('hello5')
+        #authenticate checks if credentials exists in db
+        user=authenticate(username=cleandata['username'],
+                          password=cleandata['password'])
+        if user is not None:
+            if user.is_active:
+                print('hello3')
+                login(request, user)
+                return redirect('homepage')
+            else:
+                print('hello2')
+                return redirect('userLogin')
         else:
-            return render(request, 'classicmodels/userLogin.html')
+            return HttpResponse("Invalid login")
+    else:
+        form=LoginForm()
+
+    context = {
+        'form':form
+    }
+    return render(request, 'classicmodels/userLogin.html', context)
     
 
+@login_required(login_url = 'userLogin')
 def withdraw(request):
     current_user = request.user
     obj = MonetaryInfo.objects.get(auth_user_id = current_user.id) #monetary_id = 1
@@ -131,7 +161,8 @@ def withdraw(request):
         'form' : form
     }
     return render(request, 'classicmodels/withdraw.html', context)
-    
+
+@login_required(login_url = 'userLogin')
 def details(request):
     current_user = request.user
     username = current_user.username
@@ -146,56 +177,6 @@ def details(request):
     }
     return render(request, 'classicmodels/details.html', context)
     
-def product_details_view(request):
-    #alt to below
-    #query_set = Products.objects.all() #raw(use SQL syntax here, 'SELECT * FROM Products...') || use the cursorobject
-    #context = {
-    #   'object_instance' : query_set,
-    #}
-
-    #obj = Products.objects.get(productcode = 'S10_4757')
-    obj = AuthUser.objects.get(id = 1)
-    #context = {
-    #    'title' : obj.productname,
-    #    'price' : obj.msrp,
-    #}
-    context = {
-        'username' : obj.username,
-        'email' : obj.email
-    }
-    return render(request, 'classicmodels/productdetails.html', context)
-    
-def user_product_query_view(request):
-    
-
-    return render(request, 'classicmodels/userProductQuery.html')
-    
-def user_product_details_view(request):
-    # current_user = request.user
-    # minPrice = request.GET['minprice']
-    # y = MonetaryInfo.objects.get(monetary_id = 1)
-    # x = AuthUser.objects.get(id = current_user.id)
-    # x.somenum = minPrice
-    # x.save()
-    new_entry = AuthUser(username='testUserr', password='test1234!', email = 'endrit@gmail.com', is_superuser = 0, is_staff = 0, is_active= 1, first_name = 'endrit', last_name = 'zenuni', date_joined = '2021-01-04')
-    new_entry.save()
-
-    # y.monetary_id = 1
-    # y.save
-    # maxPrice = request.GET['maxprice']
-    #create a filtered list
-    # query_set_product_price_filtered = []
-    # #run the query : extract all results
-    # query_set_product_price = Products.objects.all()
-    # for object in query_set_product_price:
-    #     if (object.msrp >= float(minPrice) and object.msrp <= float(maxPrice)):
-    #         query_set_product_price_filtered.append(object)
-            
-    # context = {
-    #     'object_instance' : query_set_product_price_filtered
-    # }
-    
-    return render(request, 'classicmodels/userProductDetails.html')
 
 def signup(request):
     debitcard = random.randint(1000000000000000,9999999999999999)
@@ -205,33 +186,35 @@ def signup(request):
     date = datetime.now() + timedelta(days=720)
     twoYearsFromNow= date.strftime('%m/%y')
     
+    if request.user.is_authenticated:
+        return redirect('homepage')
 
-
-    if request.method =='POST':
-        form = UserRegisterForm(request.POST)
-        
-        if form.is_valid():
-            newuser = form.save()
-            print(newuser.pk)
-
-            new_entry = MonetaryInfo(bank_account_number = bankacct, usd_sum = 0,cad_sum = 0, auth_user_id = newuser.pk)
-            new_entry.save()
-
-
-            new_entry2 = DebitCards(debit_card_id = 3,debit_card_num = debitcard, cvv = cvv1, expiration_date = twoYearsFromNow, fk_debit_cards_monetary_info1_id = new_entry.pk)
-            new_entry2.save()
-            
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Account created for {username}!')
-
-            new_user = authenticate(username=form.cleaned_data['username'],
-                                    password=form.cleaned_data['password1'],
-                                    )
-            login(request, new_user)
-            
-            return redirect('homepage')
     else:
-        form = UserRegisterForm()
+        if request.method =='POST':
+            form = UserRegisterForm(request.POST)
+            
+            if form.is_valid():
+                newuser = form.save()
+                print(newuser.pk)
+
+                new_entry = MonetaryInfo(bank_account_number = bankacct, usd_sum = 0,cad_sum = 0, auth_user_id = newuser.pk)
+                new_entry.save()
+
+
+                new_entry2 = DebitCards(debit_card_num = debitcard, cvv = cvv1, expiration_date = twoYearsFromNow, fk_debit_cards_monetary_info1_id = new_entry.pk)
+                new_entry2.save()
+                
+                username = form.cleaned_data.get('username')
+                messages.success(request, f'Account created for {username}!')
+
+                new_user = authenticate(username=form.cleaned_data['username'],
+                                        password=form.cleaned_data['password1'],
+                                        )
+                login(request, new_user)
+                
+                return redirect('homepage')
+        else:
+            form = UserRegisterForm()
 
     # x = AuthUser.objects.get(id)
     # print(x)
