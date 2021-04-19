@@ -1,38 +1,48 @@
 <!DOCTYPE html>
 <html style="background-color: #262626">
+
 <head>
-    <title>Login</title>
+	<title>Login</title>
 </head>
+
 <body>
 
 	<h1 style="color: white; text-align: center;">Welcome To Our Bank!</h1>
-    <h1 style="color: white; text-align: center;">Please Login Below:</h1>
+	<h1 style="color: white; text-align: center;">Please Login Below:</h1>
 
-<style>
-    input, label, button{
-        font-size: xx-large;
-    }
-    input{
-        color: black;
-    }
-</style>
+	<style>
+		input,
+		label,
+		button {
+			font-size: xx-large;
+		}
 
-<div style="text-align: center;">
-<form>
-  <label style="color: white;">Username: </label>
-  <input readonly type="text" value="{{username}}">
+		input {
+			color: black;
+		}
+	</style>
 
-  <br>
-  <br>
-  <label style="color: white;">Password: </label>
-  <input readonly type="text" value="{{password}}">
-  <br>
-  <br>
-  <br>
-  </form>
+	<div style="text-align: center;">
+		<form>
+			<label style="color: white;">Username: </label>
+			<input readonly type="text" value="{{username}}">
 
-  <a href={% url 'homepage' %}><button style="background-color: lightgreen;">SUBMIT</button></a>
-  </div>
+			<br>
+			<br>
+			<label style="color: white;">Password: </label>
+			<input readonly type="text" value="{{password}}">
+			<br>
+			<br>
+			<br>
+		</form>
+
+			<a href={% url 'homepage' %}><button style="background-color: lightgreen; width: 30vh;">LOGIN</button></a>
+			<h1 style="color: white; text-align: center;">Don't Have An Account?</h1>
+			<a href={% url 'signup' %}><button style="background-color: lightgreen; width: 30vh;">CREATE
+					ACOUNT</button></a>
+
+	</div>
 
 </body>
+
 </html>
