@@ -143,6 +143,14 @@ def deactivate(request):
 
 @login_required(login_url = 'userLogin')
 def transfer(request):
+    current_user = request.user
+    obj = MonetaryInfo.objects.get(auth_user_id = current_user.id)
+    
+    usdsum = obj.usd_sum
+    cadsum = obj.cad_sum
+    
+    if request.method == 'POST':
+        form = Transfer
     return render(request, 'classicmodels/transfer.html')
 
 def userLogin(request):
