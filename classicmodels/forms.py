@@ -23,6 +23,14 @@ class WithdrawForm(forms.Form):
     withdrawUSD = forms.DecimalField(required = False,max_digits = 6, decimal_places= 2,  widget=forms.TextInput(attrs={'placeholder': '0'}), validators = [MinValueValidator(0, message = 'please do not put in negative numbers')])
     withdrawCAD = forms.DecimalField(required = False, max_digits = 6, decimal_places= 2, widget=forms.TextInput(attrs={'placeholder': '0'}), validators = [MinValueValidator(0, message = 'please do not put in negative numbers')])
 
+class TransferForm(forms.Form):
+    transferUSD = forms.DecimalField(required = False, max_digits = 6, decimal_places= 2, widget=forms.TextInput(attrs={'placeholder': '0'}), validators = [MinValueValidator(0, message = 'please do not put in negative numbers')])
+
+    transferCAD = forms.DecimalField(required = False, max_digits = 6, decimal_places= 2, widget=forms.TextInput(attrs={'placeholder': '0'}), validators = [MinValueValidator(0, message = 'please do not put in negative numbers')])
+
+    destinationUser = forms.IntegerField(required = False, widget=forms.TextInput(attrs={'placeholder': '0000 0000 0000'}))
+
+
 class LoginForm(forms.Form):
    username = forms.CharField()
    password = forms.CharField(widget=forms.PasswordInput)#hides password on input

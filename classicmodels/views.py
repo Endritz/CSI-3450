@@ -96,12 +96,17 @@ def deposit(request):
                     usd = 0;
                 if cad is None:
                     cad = 0;
+                # if usd is not 0:
+                #     transaction(my_model.monetary_id, usd, 'usd')
+                # if cad is not 0:
+                #     transaction(my_model.monetary_id, cad, 'cad')
 
                 my_model.usd_sum += usd
                 my_model.cad_sum += cad 
                 # MAKE SURE IT TAKES IN THE FORM.DEPOSITCAD AND NOT THE NAME OF THE SUBMIT BUTTONS
                 my_model.save()
                 messages.success(request, f'Deposit successful!')
+                
                 return redirect('homepage')
     else:      
         form = DepositForm()
@@ -143,7 +148,61 @@ def deactivate(request):
 
 @login_required(login_url = 'userLogin')
 def transfer(request):
-    return render(request, 'classicmodels/transfer.html')
+    current_user = request.user
+    obj = MonetaryInfo.objects.get(auth_user_id = current_user.id)
+    
+    usdsum = obj.usd_sum
+    cadsum = obj.cad_sum
+    
+    if request.method == 'POST':
+            form = TransferForm(request.POST)
+            if form.is_valid():
+                destuser = form.cleaned_data.get('destinationUser')
+                print('hello')
+                print(destuser)
+                
+                if destuser is None or len(str(destuser)) != 12:
+                    return redirect('homepage')
+                print('hello1')
+
+                user1 = MonetaryInfo.objects.get(auth_user_id = current_user.id)
+                user2 = MonetaryInfo.objects.get(bank_account_number = destuser)
+
+                if user2 is None:
+                    return redirect('transfer')
+
+                print('hell2')
+                # TRY TO DO SOME ERROR CLEANING UP LATER
+                # if form.cleaned_data.get('depositCAD') < 0 or form.cleaned_data.get('depositUSD') < 0:
+                #     messages.add_message(request, messages.INFO, 'Hello world.')
+
+                usd = form.cleaned_data.get('transferUSD')
+                cad = form.cleaned_data.get('transferCAD')
+                
+                # DJANGO DOESNT TAKE IN BLANK VALUES SO YOU HAVE TO CHECK FOR IT MANUALLY
+                if cad is None or cad > user1.cad_sum:
+                    cad = 0;
+                if usd is None or usd > user1.usd_sum:
+                    usd = 0;
+
+                user1.usd_sum -= decimal.Decimal(float(usd))
+                user1.cad_sum -= decimal.Decimal(float(cad))
+                user2.usd_sum += decimal.Decimal(float(usd))
+                user2.cad_sum += decimal.Decimal(float(cad))
+                # MAKE SURE IT TAKES IN THE FORM.DEPOSITCAD AND NOT THE NAME OF THE SUBMIT BUTTONS
+                user1.save()
+                user2.save()
+                messages.success(request, f'Deposit successful!')
+                return redirect('homepage')
+    else:
+        form = TransferForm()
+
+    context = {
+        'usdsum': usdsum,
+        'cadsum': cadsum,
+        'form' : form
+    }
+    return render(request, 'classicmodels/transfer.html', context)
 
 def userLogin(request):
     form = LoginForm(request.POST)
@@ -281,3 +340,21 @@ def signup(request):
     # new_entry.save()
 
     return render(request, 'classicmodels/signup.html', {'form':form})
+
+
+# def transaction(fk_id, amnt, currency):
+#     date = datetime.now()
+#     print(fk_id)
+#     new_entry = Transaction(amount = amnt, date = date, currency = currency, monetary_info_monetary = fk_id)
+#     new_entry.save()
+
+# def transfers(recipient, sender, fk_id, fk_transfer_id, amnt, currency):
+#     date = datetime.now()
+#     entry_transfer = Transfers(recipient = recipient, sender = sender)
+#     entry_transfer.save()
+    
+#     new_entry = Transaction(amount = amnt, date = date, currency = currency, transfers_transfers = entry_transfer.transfer_id, monetary_info_monetary = fk_id)
+#     new_entry.save()
+    
+    
+    
