@@ -49,7 +49,6 @@ class AuthUser(models.Model):
     is_active = models.IntegerField()
     date_of_birth = models.IntegerField(blank=True, null=True)
     date_joined = models.DateTimeField()
-    somenum = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -165,7 +164,7 @@ class MonetaryInfo(models.Model):
 
 
 class Transaction(models.Model):
-    transaction_id = models.IntegerField(db_column='TRANSACTION_ID', primary_key=True)  # Field name made lowercase.
+    transaction_id = models.AutoField(db_column='TRANSACTION_ID', primary_key=True)  # Field name made lowercase.
     amount = models.DecimalField(db_column='AMOUNT', max_digits=2, decimal_places=0)  # Field name made lowercase.
     date = models.DateField(db_column='DATE')  # Field name made lowercase.
     currency = models.CharField(db_column='CURRENCY', max_length=3)  # Field name made lowercase.
@@ -178,7 +177,7 @@ class Transaction(models.Model):
 
 
 class Transfers(models.Model):
-    transfer_id = models.IntegerField(db_column='TRANSFER_ID', primary_key=True)  # Field name made lowercase.
+    transfer_id = models.AutoField(db_column='TRANSFER_ID', primary_key=True)  # Field name made lowercase.
     recipient = models.IntegerField(db_column='RECIPIENT')  # Field name made lowercase.
     sender = models.IntegerField(db_column='SENDER')  # Field name made lowercase.
 

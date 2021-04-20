@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html style="background-color: #262626">
 
-</html>>
+</html>
 
 <head>
     <title>Transfer</title>
@@ -24,44 +24,43 @@
     </style>
 
     <div style="text-align: center;">
-        <form method = 'POST'>
+        <form method='POST'>
             <label style="color: white;">Current USD Balance: </label>
-            <input readonly type="text" value="{{currentusdbalance}}">
+            <input readonly type="text" value="${{usdsum}}">
             <br>
             <br>
-            <label style="color: white;">Who to Transfer to: </label>
-            <input type="text" value="{{destinationuser}}">
-            <br>
-            <br>
+
             {% csrf_token %}
             <label style="color: white;">Transfer USD Amount: </label>
-            {{form.depositUSD}}
-            <input type="text" value="Transfer USD Amount" min="0">
-            <button type="button" onclick="alert('USD TransactionID')" style="background-color: lightgreen;">CONFIRM</button>
+            {{form.transferUSD}}
+
             <br>
             <br>
-            <br>
-            <br>
+
             <label style="color: white;">Current CAD Balance: </label>
-            <input readonly type="text" value="{{currentcadbalance}}">
+            <input readonly type="text" value="CA${{cadsum}}">
             <br>
             <br>
-            <label style="color: white;">Who to Transfer to: </label>
-            <input type="text" value="{{destinationuser}}">
-            <br>
-            <br>
+
+
             {% csrf_token %}
             <label style="color: white;">Transfer CAD Amount: </label>
             {{form.transferCAD}}
-            <input type="text" value="Transfer CAD Amount">
-            <button type="button" onclick="alert('CAD TransactionID')" style="background-color: lightgreen;">CONFIRM</button>
+
+
             <br>
+            <br>
+
+            <label style="color: white;">Who to Transfer to: </label>
+            {{form.destinationUser}}
+            <input type="submit" value="Confirm" onclick="alert('ARE YOU SURE YOU WANT TO DO THIS?')"
+                style="background-color: lightgreen;">
             <br>
             <br>
         </form>
-    
 
-        <a href={% url 'homepage' %} ><button style="background-color: lightgreen;">HOME</button></a>
+
+        <a href={% url 'homepage' %}><button style="background-color: lightgreen;">HOME</button></a>
     </div>
 
 </body>
