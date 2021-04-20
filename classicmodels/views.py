@@ -279,10 +279,14 @@ def details(request):
     money = MonetaryInfo.objects.get(auth_user_id = current_user.id)
     bankAcct = money.bank_account_number
     debitcard = DebitCards.objects.get(fk_debit_cards_monetary_info1 = money.monetary_id).debit_card_num
+    cvv = DebitCards.objects.get(fk_debit_cards_monetary_info1 = money.monetary_id).cvv
+    exp_date = DebitCards.objects.get(fk_debit_cards_monetary_info1 = money.monetary_id).expiration_date
     context = {
         'username': username,
         'bankAcct': bankAcct,
-        'debitcard' : debitcard
+        'debitcard' : debitcard,
+        'cvv' : cvv,
+        'exp_date' : exp_date
     }
     return render(request, 'classicmodels/details.html', context)
     
