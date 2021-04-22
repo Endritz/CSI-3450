@@ -208,21 +208,17 @@ def userLogin(request):
     form = LoginForm(request.POST)
     if request.user.is_authenticated:
         form = LoginForm(request.POST)
-        print('hello')
         return redirect('homepage')
     if form.is_valid():
         cleandata=form.cleaned_data
-        print('hello5')
         #authenticate checks if credentials exists in db
         user=authenticate(username=cleandata['username'],
                           password=cleandata['password'])
         if user is not None:
             if user.is_active:
-                print('hello3')
                 login(request, user)
                 return redirect('homepage')
             else:
-                print('hello2')
                 return redirect('userLogin')
         else:
             return HttpResponse("Invalid login")
