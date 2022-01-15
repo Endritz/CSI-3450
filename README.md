@@ -9,3 +9,6 @@ STEP 3: ACTIVATE THE VIRTUAL ENVIRONMENT
 STEP 4: DO PYTHON MANAGE.PY MIGRATE  
 STEP 5: RUN THE SERVER  
 STEP 6: GOT TO YOUR BROWSER AND TYPE IN http://localhost:8000/login/  
+
+
+Here is a behind the scenes video of how everything was completed: https://www.youtube.com/watch?v=VPXvmzz__8k
