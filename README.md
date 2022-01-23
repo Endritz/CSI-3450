@@ -1,6 +1,5 @@
 # CSI-3450
-# This is a Foreign currency banking system made using Django, MySQL, HTML and CSS to help users
-# who frequent Canada and the US while trying to keep up with the proper currency
+# This is a Foreign currency banking system made using Django, MySQL, HTML and CSS to help users who frequent Canada and the US while trying to keep up with the proper currency
 
 ##To get the project up and running follow the steps below
 
